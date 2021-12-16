@@ -37,8 +37,8 @@ deployment:
 
 volume:
   mysql:
-    name: sqlite-data
-    path: /app/data
+    name: mysql-data
+    path: /var/lib/mysql/data
 
 claim:
   mysql:
