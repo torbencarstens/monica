@@ -30,9 +30,6 @@ spec:
         - containerPort: {{ $port }}
           protocol: TCP
         {{- end }}
-        volumeMounts:
-          - mountPath: {{ .Values.volume.mysql.path }}
-            name: {{ .Values.volume.mysql.name }}
         resources:
           requests:
             cpu: {{ .Values.deployment.monica.requests.cpu }}
