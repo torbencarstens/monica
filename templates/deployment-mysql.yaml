@@ -24,9 +24,9 @@ spec:
         imagePullPolicy: {{ .Values.deployment.mysql.imagePullPolicy }}
         envFrom:
           - secretRef:
-              name: {{ .Values.secret.name }}
+              name: {{ .Values.secret.mysql.name }}
           - configMapRef:
-              name: {{ .Values.configmap.name }}
+              name: {{ .Values.configmap.mysql.name }}
         ports:
         {{- range $port := .Values.deployment.mysql.ports }}
         - containerPort: {{ $port }}

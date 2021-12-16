@@ -24,9 +24,9 @@ spec:
         imagePullPolicy: {{ .Values.deployment.monica.imagePullPolicy }}
         envFrom:
           - secretRef:
-              name: {{ .Values.secret.name }}
+              name: {{ .Values.secret.monica.name }}
           - configMapRef:
-              name: {{ .Values.configmap.name }}
+              name: {{ .Values.configmap.monica.name }}
         ports:
         {{- range $port := .Values.deployment.monica.ports }}
         - containerPort: {{ $port }}
