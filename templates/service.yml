@@ -21,7 +21,7 @@ spec:
   selector:
     app: {{ .Values.service.monica.appSelector }}
   ports:
-    - name: http
+    - name: mysql
       protocol: TCP
       port: {{ .Values.service.monica.port }}
       targetPort: {{ .Values.service.monica.targetPort }}
