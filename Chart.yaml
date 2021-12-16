@@ -4,3 +4,5 @@ description: Deploy monica
 type: application
 version: 0.1.0
 appVersion: "0.4.3"
+icon: https://carstens.tech/helm_icon
+
