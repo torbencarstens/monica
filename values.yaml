@@ -1,0 +1,79 @@
+namespace: monica
+
+deployment:
+  monica:
+    name: monica
+    image: monica:3.5.0
+    imagePullPolicy: Always
+    revisionHistoryLimit: 1
+    replicas: 1
+    labels:
+      app: monica
+    ports:
+      - 80
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limit:
+      cpu: 300m
+      memory: 300Mi
+  mysql:
+    name: mysql
+    image: mysql:8.0.27
+    imagePullPolicy: Always
+    revisionHistoryLimit: 1
+    replicas: 1
+    labels:
+      app: mysql
+    ports:
+      - 3306
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limit:
+      cpu: 300m
+      memory: 300Mi
+
+
+volume:
+  mysql:
+    name: sqlite-data
+    path: /app/data
+
+claim:
+  mysql:
+    name: mysql
+    size: 1Gi
+    accessMode: ReadWriteOnce
+
+secret:
+  mysql:
+    name: mysql
+    password: __PASSWORD__
+
+configmap:
+  mysql:
+    name: mysql
+    user: monica
+    database: monica
+  monica:
+    name: monica
+    dbHost: mysql
+
+service:
+  monica:
+    name: monica
+    port: 80
+    targetPort: 80
+    appSelector: monica
+  mysql:
+    name: monica
+    port: 3306
+    targetPort: 3306
+    appSelector: mysql
+
+ingress:
+  host: monica.carstens.tech
+  secret: tls-monica
+  issuer: letsencrypt-issuer-http
+  name: monica

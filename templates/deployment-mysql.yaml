@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.mysql.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  revisionHistoryLimit: {{ .Values.deployment.mysql.revisionHistoryLimit }}
+  replicas: {{ .Values.deployment.mysql.replicas }}
+  selector:
+    matchLabels:
+      {{- range $k, $v := .Values.deployment.mysql.labels }}
+      {{ $k }}: {{ $v }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- range $k, $v := .Values.deployment.mysql.labels }}
+        {{ $k }}: {{ $v }}
+        {{- end }}
+    spec:
+      containers:
+      - name: {{ .Values.deployment.mysql.name }}
+        image: {{ .Values.deployment.mysql.image }}
+        imagePullPolicy: {{ .Values.deployment.mysql.imagePullPolicy }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.secret.name }}
+          - configMapRef:
+              name: {{ .Values.configmap.name }}
+        ports:
+        {{- range $port := .Values.deployment.mysql.ports }}
+        - containerPort: {{ $port }}
+          protocol: TCP
+        {{- end }}
+        volumeMounts:
+          - mountPath: {{ .Values.volume.mysql.path }}
+            name: {{ .Values.volume.mysql.name }}
+        resources:
+          requests:
+            cpu: {{ .Values.deployment.mysql.requests.cpu }}
+            memory: {{ .Values.deployment.mysql.requests.memory }}
+          limits:
+            cpu: {{ .Values.deployment.mysql.limit.cpu }}
+            memory: {{ .Values.deployment.mysql.limit.memory }}
+      volumes:
+      - name: {{ .Values.volume.mysql.name }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.claim.mysql.name }}

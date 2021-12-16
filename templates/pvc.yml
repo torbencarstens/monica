@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.claim.mysql.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - {{ .Values.claim.mysql.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.claim.mysql.size }}

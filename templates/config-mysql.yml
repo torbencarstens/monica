@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.secret.mysql.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  MYSQL_PASSWORD: "{{ .Values.secret.mysql.password }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.mysql.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  MYSQL_USER: "{{ .Values.configmap.mysql.user }}"
+  MYSQL_DATABASE: "{{ .Values.configmap.mysql.database }}"

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.monica.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  revisionHistoryLimit: {{ .Values.deployment.monica.revisionHistoryLimit }}
+  replicas: {{ .Values.deployment.monica.replicas }}
+  selector:
+    matchLabels:
+      {{- range $k, $v := .Values.deployment.monica.labels }}
+      {{ $k }}: {{ $v }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- range $k, $v := .Values.deployment.monica.labels }}
+        {{ $k }}: {{ $v }}
+        {{- end }}
+    spec:
+      containers:
+      - name: {{ .Values.deployment.monica.name }}
+        image: {{ .Values.deployment.monica.image }}
+        imagePullPolicy: {{ .Values.deployment.monica.imagePullPolicy }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.secret.name }}
+          - configMapRef:
+              name: {{ .Values.configmap.name }}
+        ports:
+        {{- range $port := .Values.deployment.monica.ports }}
+        - containerPort: {{ $port }}
+          protocol: TCP
+        {{- end }}
+        volumeMounts:
+          - mountPath: {{ .Values.volume.mysql.path }}
+            name: {{ .Values.volume.mysql.name }}
+        resources:
+          requests:
+            cpu: {{ .Values.deployment.monica.requests.cpu }}
+            memory: {{ .Values.deployment.monica.requests.memory }}
+          limits:
+            cpu: {{ .Values.deployment.monica.limit.cpu }}
+            memory: {{ .Values.deployment.monica.limit.memory }}
