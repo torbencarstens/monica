@@ -59,6 +59,7 @@ configmap:
   monica:
     name: monica
     dbHost: mysql
+    randomPassword: "true"
 
 service:
   monica:
@@ -67,7 +68,7 @@ service:
     targetPort: 80
     appSelector: monica
   mysql:
-    name: monica
+    name: mysql
     port: 3306
     targetPort: 3306
     appSelector: mysql

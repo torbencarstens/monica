@@ -14,3 +14,4 @@ metadata:
 data:
   MYSQL_USER: "{{ .Values.configmap.mysql.user }}"
   MYSQL_DATABASE: "{{ .Values.configmap.mysql.database }}"
+  MYSQL_RANDOM_ROOT_PASSWORD: "{{ .Values.configmap.mysql.enableRandomRootPassword }}"
