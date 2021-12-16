@@ -59,7 +59,7 @@ configmap:
   monica:
     name: monica
     dbHost: mysql
-    randomPassword: "true"
+    enableRandomRootPassword: "true"
 
 service:
   monica:
