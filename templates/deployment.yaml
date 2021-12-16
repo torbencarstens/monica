@@ -23,8 +23,6 @@ spec:
         image: {{ .Values.deployment.monica.image }}
         imagePullPolicy: {{ .Values.deployment.monica.imagePullPolicy }}
         envFrom:
-          - secretRef:
-              name: {{ .Values.secret.monica.name }}
           - configMapRef:
               name: {{ .Values.configmap.monica.name }}
         ports:
